@@ -18,6 +18,9 @@ const Users = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deletingId, setDeletingId] = useState(null)
+
   const generateRandomGender = (array) => {
     const updated = array.map((person) => ({
       ...person,
@@ -38,9 +41,16 @@ const Users = () => {
 
   const filteredUsers = users.filter((user) => user.gender === currentGender);
 
+  const initDelete = (id) => {
+    setIsDeleting(true)
+    setDeletingId(id)
+  }
+
   const deleteUser = (id) => {
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
+    setIsDeleting(false)
+    setDeletingId(null)
   };
 
   const setData = (setter, e) => {
@@ -91,6 +101,7 @@ const Users = () => {
     setUsers((prev) => [...prev, userToAdd]);
   };
 
+
   const initEdit = (user) => {
     setIsEditing(true);
     setEditingId(user.id);
@@ -107,6 +118,16 @@ const Users = () => {
           handleChange={handleChange}
         />
       )}
+
+      {isDeleting && (
+        <Modal
+          title={"Delete User"}
+          message="Are you sure you want to delete this user?"
+          onSubmit={() => deleteUser(deletingId)}
+          onCancel={() => setIsDeleting(false)}
+        />
+      )}
+      
       <h1>User Management</h1>
 
       <div className="form">
@@ -139,7 +160,7 @@ const Users = () => {
               </li>
               <div className="buttons">
                 <button
-                  onClick={() => deleteUser(user.id)}
+                  onClick={() => initDelete(user.id)}
                   className="delete-btn"
                 >
                   Delete
