@@ -1,0 +1,148 @@
+.submit-modal {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 32px 28px 16px;
+  width: 280px;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-modal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.08) 20%,
+    rgba(0, 0, 0, 0.08) 80%,
+    transparent 100%
+  );
+}
+
+.submit-modal h1 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #000000;
+  margin: 0 0 24px;
+  letter-spacing: -0.24px;
+}
+
+.submit-modal .buttons {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.submit-modal .buttons::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e5e5ea;
+}
+
+.submit-modal button {
+  flex: 1;
+  padding: 18px 16px;
+  border: none;
+  background: transparent;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  color: #007aff;
+  letter-spacing: -0.24px;
+}
+
+.submit-modal button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+}
+
+.submit-modal button:active::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.submit-modal button.yes {
+  color: #ff3b30;
+  position: relative;
+}
+
+.submit-modal button.yes::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #e5e5ea;
+}
+
+.submit-modal button.no {
+  color: #007aff;
+}
+
+.submit-modal button:active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* For backdrop effect when modal is displayed */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal animation */
+.submit-modal {
+  animation: modalSlideIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
