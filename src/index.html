@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function findDuplicates(array) {
+        const seen = [];
+        const duplicates = [];
+
+        for (const num of array) {
+          if (seen.includes(num)) {
+            duplicates.push(num);
+          } else {
+            seen.push(num);
+          }
+        }
+
+        return duplicates;
+      }
+
+      console.log(findDuplicates(numbers));
+
+      const numbers = [1, 2, 3, 3, 6, 5, 4, 1];
+
+      function findBiggestNum(arr) {
+        let biggestNum = 6;
+
+        for (const num of arr) {
+          if (num > biggestNum) {
+            biggestNum = num;
+          }
+        }
+
+        return biggestNum
+      }
+    </script>
+  </body>
+</html>
