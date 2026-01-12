@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./users.css";
 import Modal from "./Modal";
+import Notification from "./Notification";
 
 // https://jsonplaceholder.typicode.com/users
 
@@ -18,7 +19,9 @@ const Users = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [maxAgeFilter, setMaxAgeFilter] = useState(15);
-  const [finalAgeFilter, setFinalAgeFilter] = useState(0)
+  const [finalAgeFilter, setFinalAgeFilter] = useState(0);
+  const [displayNotification, setDisplayNotification] = useState(false)
+  const [notificationMsg, setNotifcationMsg] = useState("")
 
   const generateGenderAge = (array) => {
     const updated = array.map((person) => ({
@@ -49,8 +52,14 @@ const Users = () => {
 
 
   const deleteUser = (id) => {
+    const userBeingDeleted = users.find((user) => user.id === id)
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
+    setDisplayNotification(true)
+    setNotifcationMsg(`${userBeingDeleted.name} deleted successfully!`)
+    setTimeout(() => {
+      setDisplayNotification(false)
+    }, 2000);
   };
 
   const setData = (setter, e) => {
@@ -83,6 +92,11 @@ const Users = () => {
       )
     );
     setIsEditing(false);
+    setDisplayNotification(true)
+    setNotifcationMsg("User edited successfully!")
+    setTimeout(() => {
+      setDisplayNotification(false)
+    }, 2000);
   };
 
   const addNewUser = () => {
@@ -108,6 +122,7 @@ const Users = () => {
 
   return (
     <div className="users-container">
+      {displayNotification && <Notification message={notificationMsg} />}
       {isEditing && (
         <Modal
           title={"Edit User"}

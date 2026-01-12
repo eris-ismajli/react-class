@@ -1,0 +1,19 @@
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #323232;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  max-width: 300px;
+  z-index: 1000;
+}
+
+/* Optional: subtle fade-in */
+.notification {
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
