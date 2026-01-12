@@ -23,7 +23,12 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-inline: 60px;
-    padding-bottom: 45px;
+    padding-block: 10px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #ccc;
+    position: sticky;
+    top: 0;
+    background-color: white;
 }
 
 .cart {
