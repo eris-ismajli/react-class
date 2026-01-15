@@ -13,6 +13,9 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
     image: "",
   });
 
+  const [isEditing, setIsEditing] = useState(false)
+  const [editingIndex, setEditingIndex] = useState(null)
+
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then((response) => response.json())
@@ -56,6 +59,15 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
 
     setProducts((prev) => [...prev, productToAdd]);
   };
+
+  const toggleEdit = (index) => {
+    setIsEditing(!isEditing)
+    if (isEditing) {
+      setEditingIndex(null)
+    } else {
+      setEditingIndex(index)
+    }
+  }
 
   return (
     <main>
@@ -107,6 +119,7 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
               <h3>${product.price}</h3>
               <button onClick={() => addToCart(product)}>Add to Cart</button>
               <button onClick={() => deleteProduct(index)}>Delete</button>
+              <button onClick={() => toggleEdit(index)}>{isEditing && index === editingIndex ? "Apply changes" : "Edit"}</button>
             </div>
           );
         })}
