@@ -16,7 +16,7 @@ const Cart = ({ cartProducts, setCartProducts }) => {
     (total, product) => total + product.price,
     0
   );
-
+  
   return (
     <div>
       <header>

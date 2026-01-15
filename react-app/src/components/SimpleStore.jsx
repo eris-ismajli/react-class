@@ -41,7 +41,7 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
   const addProduct = () => {
     const { title, category, price, image } = newProductData;
 
-    if (title.trim() === "" || category.trim() === "" || price === null) {
+    if (title.trim() === "" || category.trim() === "" || price === null || image.trim() === "") {
       alert("Please provide all the data");
       return;
     }
