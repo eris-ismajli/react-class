@@ -13,8 +13,13 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
     image: "",
   });
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [editingIndex, setEditingIndex] = useState(null)
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingProductData, setEditingProductData] = useState({
+    title: "",
+    category: "",
+    price: null,
+  });
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -35,16 +40,28 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
   const handleChange = (e) => {
     const { name, value, files, type } = e.target;
 
-    setNewProductData((prev) => ({
-      ...prev,
-      [name]: type === "file" ? files[0] : value,
-    }));
+    if (!isEditing) {
+      setNewProductData((prev) => ({
+        ...prev,
+        [name]: type === "file" ? files[0] : value,
+      }));
+    } else {
+      setEditingProductData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const addProduct = () => {
     const { title, category, price, image } = newProductData;
 
-    if (title.trim() === "" || category.trim() === "" || price === null || image.trim() === "") {
+    if (
+      title.trim() === "" ||
+      category.trim() === "" ||
+      price === null ||
+      image.trim() === ""
+    ) {
       alert("Please provide all the data");
       return;
     }
@@ -60,14 +77,36 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
     setProducts((prev) => [...prev, productToAdd]);
   };
 
-  const toggleEdit = (index) => {
-    setIsEditing(!isEditing)
-    if (isEditing) {
-      setEditingIndex(null)
-    } else {
-      setEditingIndex(index)
+  const applyChanges = (index) => {
+    const {title, category, price} = editingProductData
+
+    if (title.trim() === "" || category.trim() === "" || price === null) {
+      alert("Please provide valid data")
+      return
     }
-  }
+
+    const updatedProducts = products.map((product, i) =>
+      i === index ? { ...product, ...editingProductData } : product
+    );
+
+    setProducts(updatedProducts);
+  };
+  
+  const toggleEdit = (product, index) => {
+    setIsEditing(!isEditing);
+    if (isEditing) {
+      applyChanges(index);
+      setEditingIndex(null);
+    } else {
+      const {category, title, price} = product
+      setEditingIndex(index);
+      setEditingProductData({
+        category,
+        title,
+        price
+      })
+    }
+  };
 
   return (
     <main>
@@ -114,12 +153,45 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
                 alt={product.title}
               />
 
-              <p>{product.category}</p>
-              <h3>{product.title}</h3>
-              <h3>${product.price}</h3>
-              <button onClick={() => addToCart(product)}>Add to Cart</button>
-              <button onClick={() => deleteProduct(index)}>Delete</button>
-              <button onClick={() => toggleEdit(index)}>{isEditing && index === editingIndex ? "Apply changes" : "Edit"}</button>
+              {isEditing && index === editingIndex ? (
+                <div>
+                  <input
+                    onChange={handleChange}
+                    name="category"
+                    type="text"
+                    placeholder="category"
+                    value={editingProductData.category}
+                  />
+                  <input
+                    onChange={handleChange}
+                    name="title"
+                    type="text"
+                    placeholder="title"
+                    value={editingProductData.title}
+                  />
+                  <input
+                    onChange={handleChange}
+                    name="price"
+                    type="number"
+                    placeholder="price"
+                    value={editingProductData.price}
+                  />
+                </div>
+              ) : (
+                <div>
+                  <p>{product.category}</p>
+                  <h3>{product.title}</h3>
+                  <h3>${product.price}</h3>
+                  <button onClick={() => addToCart(product)}>
+                    Add to Cart
+                  </button>
+                  <button onClick={() => deleteProduct(index)}>Delete</button>
+                </div>
+              )}
+
+              <button onClick={() => toggleEdit(product, index)}>
+                {isEditing && index === editingIndex ? "Apply changes" : "Edit"}
+              </button>
             </div>
           );
         })}
