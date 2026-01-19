@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const SimpleStore = ({ cartProducts, setCartProducts }) => {
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
   const [newProductData, setNewProductData] = useState({
     title: "",
     category: "",
@@ -28,11 +27,13 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const addToCart = (product) => {
+  const addToCart = (product, e) => {
+    e.stopPropagation()
     setCartProducts((prev) => [...prev, product]);
   };
 
-  const deleteProduct = (index) => {
+  const deleteProduct = (index, e) => {
+    e.stopPropagation()
     const updatedProducts = products.filter((product, i) => i !== index);
     setProducts(updatedProducts);
   };
@@ -60,7 +61,7 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
       title.trim() === "" ||
       category.trim() === "" ||
       price === null ||
-      image.trim() === ""
+      image == ""
     ) {
       alert("Please provide all the data");
       return;
@@ -92,7 +93,9 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
     setProducts(updatedProducts);
   };
   
-  const toggleEdit = (product, index) => {
+
+  const toggleEdit = (product, index, e) => {
+    e.stopPropagation()
     setIsEditing(!isEditing);
     if (isEditing) {
       applyChanges(index);
@@ -143,7 +146,7 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
       <section className="products-list">
         {products.map((product, index) => {
           return (
-            <div key={index} className="product-card">
+            <div onClick={() => navigate(`/product/${product.id}`)} key={index} className="product-card">
               <img
                 src={
                   product.image instanceof File
@@ -182,14 +185,14 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
                   <p>{product.category}</p>
                   <h3>{product.title}</h3>
                   <h3>${product.price}</h3>
-                  <button onClick={() => addToCart(product)}>
+                  <button onClick={(e) => addToCart(product, e)}>
                     Add to Cart
                   </button>
-                  <button onClick={() => deleteProduct(index)}>Delete</button>
+                  <button onClick={(e) => deleteProduct(index, e)}>Delete</button>
                 </div>
               )}
 
-              <button onClick={() => toggleEdit(product, index)}>
+              <button onClick={(e) => toggleEdit(product, index, e)}>
                 {isEditing && index === editingIndex ? "Apply changes" : "Edit"}
               </button>
             </div>

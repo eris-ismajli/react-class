@@ -12,6 +12,12 @@
 
 .product-card {
     width: 200px;
+    border-radius: 10px;
+    padding-inline: 10px;
+}
+
+.product-card:hover {
+    background-color: rgb(236, 236, 239);
 }
 
 .product-card > img {

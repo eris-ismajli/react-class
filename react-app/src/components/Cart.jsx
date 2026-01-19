@@ -13,7 +13,7 @@ const Cart = ({ cartProducts, setCartProducts }) => {
   };
 
   const totalPrice = cartProducts.reduce(
-    (total, product) => total + product.price,
+    (total, product) => Number(total) + Number(product.price),
     0
   );
   
