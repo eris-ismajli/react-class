@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./simpleStore.css";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
-const SimpleStore = ({ cartProducts, setCartProducts }) => {
+const SimpleStore = ({ cartProducts, setCartProducts, products, setProducts }) => {
   const navigate = useNavigate();
 
   const [newProductData, setNewProductData] = useState({
@@ -113,14 +114,7 @@ const SimpleStore = ({ cartProducts, setCartProducts }) => {
 
   return (
     <main>
-      <header>
-        <h1>Simple store</h1>
-
-        <div className="cart">
-          <button onClick={() => navigate("/cart")}>Cart</button>
-          <p>{cartProducts.length}</p>
-        </div>
-      </header>
+      <Header navigate={navigate} cartProducts={cartProducts} page={"shop"}/>
 
       <input
         onChange={handleChange}
